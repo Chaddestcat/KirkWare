@@ -29,8 +29,7 @@ local player_esp = {cache = {}} do
             ["drawings"] = {},
             ["children"] = {},
             ["adornments"] = {},
-            ["distance"] = math.huge,
-            ["chams_set"] = false
+            ["distance"] = math.huge
         }, player_esp);
         
         local children = model:GetChildren();
@@ -113,15 +112,13 @@ local player_esp = {cache = {}} do
     end;
     
     function player_esp:RenderChams(settings)
-        if (not settings.chams and not self.chams_set) then
-            self.chams_set = true;
+        if (not settings.chams) then
             for i = 1, #self.adornments do
                 self.adornments[i].Visible = false;
             end;
             return;
         end;
         
-        self.chams_set = false;
         for i = 1, #self.adornments do
             self.adornments[i].Visible = true;
         end;
