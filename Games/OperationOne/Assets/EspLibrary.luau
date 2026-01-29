@@ -135,12 +135,12 @@ local player_esp = {cache = {}} do
         local size = Vector2.new((right - left) + 2 * 2, (bottom - top) + 2 * 2);
 
         drawings.box.Visible = true;
-        drawings.box.Position = Vector2.new(left, top);
+        drawings.box.Position = Vector2.new(left - 2, top - 2);
         drawings.box.Size = size;
 
         drawings.box_outline.Visible = true;
         drawings.box_outline.Position = Vector2.new(left - 2, top - 2);
-        drawings.box_outline.Size = size;
+        drawings.box_outline.Size = Vector2.new((right - left) + 2 * 2, (bottom - top) + 2 * 2);;
     end;
     
     function player_esp:RenderChams(settings)
