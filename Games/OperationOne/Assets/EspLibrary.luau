@@ -132,15 +132,13 @@ local player_esp = {cache = {}} do
             return;
         end;
         
-        local size = Vector2.new((right - left) + 2 * 2, (bottom - top) + 2 * 2);
-
         drawings.box.Visible = true;
         drawings.box.Position = Vector2.new(left - 2, top - 2);
-        drawings.box.Size = size;
+        drawings.box.Size = Vector2.new((right - left) + 2 * 2, (bottom - top) + 2 * 2);
 
         drawings.box_outline.Visible = true;
-        drawings.box_outline.Position = Vector2.new(left - 2, top - 2);
-        drawings.box_outline.Size = Vector2.new((right - left) + 2 * 2, (bottom - top) + 2 * 2);;
+        drawings.box_outline.Position = Vector2.new(left - 3, top - 3);
+        drawings.box_outline.Size = Vector2.new((right - left) + 3 * 2, (bottom - top) + 3 * 2);
     end;
     
     function player_esp:RenderChams(settings)
@@ -164,7 +162,7 @@ local player_esp = {cache = {}} do
         end;
 
         drawings.distance.Visible = true;
-        drawings.distance.Text = math.floor(self.distance / 3) .. "m";
+        drawings.distance.Text = math.floor(self.distance/3) .. "m";
         drawings.distance.Position = Vector2.new((left + right) / 2, bottom +  (settings.weapon and 9 or 0));
     end;
     
@@ -232,5 +230,21 @@ local player_esp = {cache = {}} do
     end;
 
 end;
+
+local runservice = game:GetService("RunService");
+task.spawn(function()
+    while (task.wait(1)) do
+        local children = workspace.Viewmodels:GetChildren()
+        for i = 1, #children do
+            player_esp.new(children[i]);
+        end;
+    end;    
+end);
+
+runservice.PreRender:Connect(function()
+    for i, v in pairs(player_esp.cache) do
+        v:Update({box = true, chams = true, weapon = true, distance = true, name = true});
+    end;
+end);
 
 return player_esp;
